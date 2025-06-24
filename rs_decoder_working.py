@@ -30,7 +30,7 @@ def euclidean_algorithm(S_poly, T):
     r_0 = bx
     g_0 = GF(1)
 
-    if verbose: print(f"""-------------\nEuclidean algorithm:\nInitial variables:\n-------------\nq-1: -\nr-1: {r_prev}\ng-1: {g_prev}\n------------\nq0: -\nr0: {r_0}\ng0: {g_0}\n-------------""")
+    if verbose: print(f"""Euclidean algorithm:\n-------------\nInitial variables:\n-------------\nq-1: -\nr-1: {r_prev}\ng-1: {g_prev}\n------------\nq0: -\nr0: {r_0}\ng0: {g_0}\n-------------""")
     i = 1
     while r.degree > T-1:
         q, r = divmod(r_prev, r_0)
@@ -68,11 +68,11 @@ def error_correction(rx, gx, T):
 #degrees = [8,7,6,5,4,3,2] # KORREKTE KODEORD
 #coeffs = [GF(1), GF(7), GF(9), GF(3), GF(12), GF(10), GF(12)]
 
-degrees = [8,7,6,1,4,5,2] # MED FEJL
-coeffs = [GF(11), GF(5), GF(9), GF(3), GF(12), GF(10), GF(13)]
+#degrees = [8,7,6,1,4,5,2] # MED FEJL
+#coeffs = [GF(11), GF(5), GF(9), GF(3), GF(12), GF(10), GF(13)]
 
-#degrees = [8, 6, 5, 3, 2, 0] # MED 3 FEJL (FRA BOG)
-#coeffs = [GF(1), alpha**14, alpha**4, alpha**9, alpha**6, alpha**1]
+degrees = [8, 6, 5, 3, 2, 0] # MED 3 FEJL (FRA BOG)
+coeffs = [GF(1), alpha**14, alpha**4, alpha**9, alpha**6, alpha**1]
 
 received = galois.Poly.Degrees(degrees, coeffs=coeffs, field=GF)
 print(f"Received codeword: {received}")
