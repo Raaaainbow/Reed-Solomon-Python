@@ -134,8 +134,11 @@ T = 3
 time_start = time.time()
 S, S_powers = find_syndromes(received, T)
 if S != -1:
-    s_alpha = [alpha**S_powers[0],alpha**S_powers[1],alpha**S_powers[2],alpha**S_powers[3],alpha**S_powers[4],alpha**S_powers[5]]
-    S_poly = galois.Poly(s_alpha, field=GF)
+    S_alpha = []
+    for i in range(len(S_powers)):
+        S_alpha.append(alpha**S_powers[i])
+    
+    S_poly = galois.Poly(S_alpha, field=GF)
     if verbose: print(f"Syndrome polynomial (S(x)): {S_poly}")
 
     q, r, g = euclidean_algorithm(S_poly, T)
