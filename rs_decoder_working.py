@@ -2,11 +2,66 @@ import galois
 import numpy as np
 import time
 
+m = 8
 verbose = True
-GF = galois.GF(2**4)
+GF = galois.GF(2**m)
 if verbose: print(GF.repr_table())
 alpha = GF.primitive_element
 
+# Correct codeword:
+# Poly(x^8 + 7x^7 + 9x^6 + 3x^5 + 12x^4 + 10x^3 + 12x^2, GF(2^4))
+#
+# Codeword from the book:
+# Poly(x^8 + 9x^6 + 3x^5 + 10x^3 + 12x^2 + 2)
+# 
+# Codeword as written in the book: (a = alpha)
+# r(x) = x^8 + a^14 * x^6 + a^4 * x^5 + a^9 * x^3 + a^6 * x^2 + a
+
+# CORRECT CODEWORD (m = 4)
+if False:
+    N, K, T = 15, 9, 3
+    degrees = [8,7,6,5,4,3,2] 
+    coeffs = [GF(1), GF(7), GF(9), GF(3), GF(12), GF(10), GF(12)]
+
+# CODEWORD FROM THE BOOK (WITH 3 ERRORS) (m = 4)
+if False:
+    N, K, T = 15, 9, 3
+    degrees = [8, 6, 5, 3, 2, 0] 
+    coeffs = [GF(1), alpha**14, alpha**4, alpha**9, alpha**6, alpha**1]
+
+# CODEWORD WITH RANDOM ERRORS (m = 4)
+if False:
+    N, K, T = 15, 9, 3
+    degrees = [8,7,6,1,4,5,2] 
+    coeffs = [GF(11), GF(5), GF(9), GF(3), GF(12), GF(10), GF(13)]
+
+# LONGER CODEWORD (m = 8)
+if True:
+    N, K, T = 255, 247, 16
+    degrees = []
+    coeffs = []
+    for i in range(N):
+        degrees.append(i)
+        coeffs.append(1)
+    coeffs[254] += 4
+    coeffs[253] += 2
+    coeffs[252] += 3
+    coeffs[251] += 8
+    coeffs[252] += 11
+    coeffs[250] += 3
+    coeffs[249] += 2
+    coeffs[248] += 6
+    coeffs[247] += 3
+    coeffs[246] += 88
+    coeffs[245] += 9
+    coeffs[244] += 3
+    coeffs[243] += 1
+    coeffs[242] += 11
+    coeffs[241] += 8
+    coeffs[240] += 13
+
+received = galois.Poly.Degrees(degrees, coeffs=coeffs, field=GF)
+print(f"Received codeword: {received}")
 
 # ------------------------------------------------------------
 # find_syndromes()
@@ -97,39 +152,13 @@ def error_correction(rx, gx, T):
     for i in range(len(roots)):
         error_mag.append(-roots[i]**(-(2*T+1)) * (rx(roots[i]) / gx_prime(roots[i])))
 
-    error_vector = GF(np.zeros(15, dtype=int)) # this should be made dynamic
+    error_vector = GF(np.zeros(N, dtype=int))
     error_vector[int_roots] = error_mag
     error_poly = galois.Poly(np.flip(error_vector), field=GF)
 
     if verbose: print(f"g'(x): {gx_prime}\nError magnitude: {error_mag}\nError vector: {error_vector}\nError polynomial: {error_poly}")
 
     return error_poly
-
-# Correct codeword:
-# Poly(x^8 + 7x^7 + 9x^6 + 3x^5 + 12x^4 + 10x^3 + 12x^2, GF(2^4))
-#
-# Codeword from the book:
-# Poly(x^8 + 9x^6 + 3x^5 + 10x^3 + 12x^2 + 2)
-# 
-# Codeword as written in the book: (a = alpha)
-# r(x) = x^8 + a^14 * x^6 + a^4 * x^5 + a^9 * x^3 + a^6 * x^2 + a
-
-# CORRECT CODEWORD
-#degrees = [8,7,6,5,4,3,2] 
-#coeffs = [GF(1), GF(7), GF(9), GF(3), GF(12), GF(10), GF(12)]
-
-# CODEWORD FROM THE BOOK (WITH 3 ERRORS)
-degrees = [8, 6, 5, 3, 2, 0] 
-coeffs = [GF(1), alpha**14, alpha**4, alpha**9, alpha**6, alpha**1]
-
-# CODEWORD WITH RANDOM ERRORS
-#degrees = [8,7,6,1,4,5,2] 
-#coeffs = [GF(11), GF(5), GF(9), GF(3), GF(12), GF(10), GF(13)]
-
-received = galois.Poly.Degrees(degrees, coeffs=coeffs, field=GF)
-print(f"Received codeword: {received}")
-
-T = 3
 
 time_start = time.time()
 S, S_powers = find_syndromes(received, T)
@@ -165,4 +194,4 @@ else:
 time_slut = time.time()
 time_elapsed = time_slut - time_start
 print(f"Decoding took {str(time_elapsed)[:4]} seconds")
-input("Press enter to exit...")
+#input("Press enter to exit...")
