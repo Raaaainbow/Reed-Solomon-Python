@@ -2,6 +2,7 @@ import galois
 import numpy as np
 import time
 
+# m needs to be changed when changing codeword to ensure the fields match
 m = 8
 verbose = True
 GF = galois.GF(2**m)
@@ -43,9 +44,9 @@ if True:
     for i in range(N):
         degrees.append(i)
         coeffs.append(1)
-    coeffs[254] += 4
-    coeffs[253] += 2
-    coeffs[252] += 3
+    coeffs[254] += 1
+    coeffs[253] += 1
+    coeffs[252] += 1
     coeffs[251] += 8
     coeffs[252] += 11
     coeffs[250] += 3
