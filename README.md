@@ -10,20 +10,20 @@ clone the git repository
 git clone https://github.com/Raaaainbow/Reed-Solomon-Python
 ```
 Create the virtual enviroment
-```
+```bash
 bash scripts/enviroment.sh
 ```
 depending on you python version you can use
-```
+```bash
 PYTHON_VERSION=python3.11 bash scripts/environment.sh
 
 ```
 or use python (if available)
-```
+```bash
 PYTHON_VERSION=python bash scripts/environment.sh
 ```
 Activate the virtual enviroment
-```
+```bash
 source .venv/bin/activate
 ```
 ## Features
