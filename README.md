@@ -5,8 +5,27 @@
 - Numpy and Galois packages
 
 ## Installation
-Paste the code into your preferred Python IDE (admittedly I have no idea how git works. you know how this works)
+clone the git repository
+```bash
+git clone https://github.com/Raaaainbow/Reed-Solomon-Python
+```
+Create the virtual enviroment
+```
+bash scripts/enviroment.sh
+```
+depending on you python version you can use
+```
+PYTHON_VERSION=python3.11 bash scripts/environment.sh
 
+```
+or use python (if available)
+```
+PYTHON_VERSION=python bash scripts/environment.sh
+```
+Activate the virtual enviroment
+```
+source .venv/bin/activate
+```
 ## Features
 This program opperates over a GF(2**m) Galois Field, and has been tested to correct 16 errors in a 255 symbol message. 
 
