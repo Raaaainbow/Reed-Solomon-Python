@@ -16,5 +16,8 @@ The code includes 4 examples that you can choose by switching between True and F
 ## Reference
 If you wish to know more of the theoretical basis for Reed-Solomon decoding, along with the method used in the repository, you can read the book 'A Course In Error-Correcting Codes' by Jørn Justesen & Tom Høholdt (ISBN: 3-03719-001-9)
 
+## Contributions
+This program was largely written by Victor K. Andersen under the name [Wickn](https://github.com/Wickn).
+
 ## License
 This project is licensed under [LICENSE](LICENSE).
